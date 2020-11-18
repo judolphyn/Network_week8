@@ -20,17 +20,18 @@ struct Param {
 	uint16_t port{0};
 
 	bool parse(int argc, char* argv[]) {
-		for (int i = 1; i < argc; i++) {
-			if (strcmp(argv[i], "-e") == 0) {
-				echo = true;
-				continue;
-			}
-			if (strcmp(argv[i], "-b") == 0) {
+		if (argc < 2 || argc > 4) return false;
+		port = stoi(argv[1]);
+
+		if(argc > 2){
+			if (strcmp(argv[2], "-e") != 0) return false;
+			echo = true;
+			if (argc > 3){
+				if (strcmp(argv[3], "-b") != 0) return false;
 				broadcast = true;
-				continue;
 			}
-			port = stoi(argv[i]);
 		}
+		
 		return port != 0;
 	}
 } param;
